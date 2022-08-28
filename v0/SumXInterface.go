@@ -177,16 +177,26 @@ func fillPacket(customer_number string, number string) *Order {
 	return &order
 }
 
-func GetHttpResponse(url string, method string, body string) (res *string) {
+func GetHttpResponse(apiMethod string, httpMethod string, orderNo string, body string) (res *string) {
+	timestamp := time.Now().Unix()
+	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", apiMethod, orderNo, api_id, timestamp)
+	sign_data := api_key + api_id + query_path_data + body + strconv.FormatInt(timestamp, 10) + api_key
+
+	sign := md5.Sum([]byte(sign_data))
+	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
+
+	fmt.Printf("sign data: %s\n", sign_data)
+	fmt.Printf("sign: %s\n", strings.ToUpper(fmt.Sprintf("%x", sign)))
+
 	fmt.Println("Trying to get response from :" + url)
 	fmt.Println("Request body :" + body)
-	fmt.Println("API method :" + method)
+	fmt.Println("API method :" + httpMethod)
 
 	myClient := http.Client{Timeout: time.Second * 10000}
 
 	reqBody := strings.NewReader(body)
 
-	req, err := http.NewRequest(method, url, reqBody)
+	req, err := http.NewRequest(httpMethod, url, reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return nil
@@ -201,6 +211,52 @@ func GetHttpResponse(url string, method string, body string) (res *string) {
 		return nil
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		fmt.Println("======================Response Message=======================")
+		fmt.Println("Http Response code :" + resp.Status)
+	}
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	response := string(respBody)
+	return &response
+}
+
+func GetHttpResponse1(url string, httpMethod string, body string) (res *string) {
+
+	fmt.Println("Trying to get response from :" + url)
+	fmt.Println("Request body :" + body)
+	fmt.Println("API method :" + httpMethod)
+
+	myClient := http.Client{Timeout: time.Second * 10000}
+
+	reqBody := strings.NewReader(body)
+
+	req, err := http.NewRequest(httpMethod, url, reqBody)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "JDJhJDEwJDRYSy4wdXN0Q3FsMi9VZ3Y5NGMvMnVYMEgzeExoc21CRXZuZ3ZnOUpEVThTWUtTZnlLUjJP")
+
+	resp, err := myClient.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		fmt.Println("======================Response Message=======================")
+		fmt.Println("Http Response code :" + resp.Status)
+	}
 
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -225,14 +281,7 @@ func CreateOrderProcess(numbers string) {
 		return
 	}
 
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_ORDER, order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_POST, string(req))
+	response := GetHttpResponse("order", API_POST, "", string(req))
 	if response == nil {
 		fmt.Println("failure")
 		return
@@ -278,14 +327,7 @@ func UpdateOrderProcess(numbers string) {
 		return
 	}
 
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_ORDER, order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_PUT, string(req))
+	response := GetHttpResponse("order", API_PUT, order.Number, string(req))
 
 	if response == nil {
 		fmt.Println("failure")
@@ -306,21 +348,7 @@ func GetOrderProcess(numbers string) {
 	fmt.Println("Get order starting...")
 	fmt.Println("===============Request Message==================")
 
-	order := fillPacket("", numbers)
-
-	req, err := json.Marshal(&order)
-	if err != nil {
-		return
-	}
-
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_ORDER, order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_GET, string(req))
+	response := GetHttpResponse("order", API_GET, numbers, "")
 	if response == nil {
 		fmt.Println("failure")
 		return
@@ -333,7 +361,7 @@ func GetOrderProcess(numbers string) {
 	//var rsp map[string]interface{}
 	//err := json.Unmarshal([]byte(*response), &rsp)
 	result := &packageResponse{}
-	err = json.Unmarshal([]byte(*response), result)
+	err := json.Unmarshal([]byte(*response), result)
 	if err != nil {
 		return
 	}
@@ -343,15 +371,7 @@ func DeleteOrderProcess(numbers string) {
 	fmt.Println("Delete order starting...")
 	fmt.Println("=============== Request Message ==================")
 
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_ORDER, numbers, api_id, timestamp)
-
-	sign_data := api_key + api_id + query_path_data + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_DELETE, "")
+	response := GetHttpResponse("order", API_DELETE, numbers, "")
 
 	if response == nil {
 		fmt.Println("failure")
@@ -375,21 +395,7 @@ func GetLabelProcess(numbers string) {
 	fmt.Println("Get label starting...")
 	fmt.Println("===============Request Message==================")
 
-	order := fillPacket("", numbers)
-
-	req, err := json.Marshal(&order)
-	if err != nil {
-		return
-	}
-
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_LABEL, order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_GET, string(req))
+	response := GetHttpResponse("label", API_GET, numbers, "")
 	if response == nil {
 		fmt.Println("failure")
 		return
@@ -402,7 +408,7 @@ func GetLabelProcess(numbers string) {
 	//var rsp map[string]interface{}
 	//err := json.Unmarshal([]byte(*response), &rsp)
 	result := &packageResponse{}
-	err = json.Unmarshal([]byte(*response), result)
+	err := json.Unmarshal([]byte(*response), result)
 	if err != nil {
 		return
 	}
@@ -411,21 +417,14 @@ func GetTrackingProcess(numbers string) {
 	fmt.Println("Get tracking starting...")
 	fmt.Println("===============Request Message==================")
 
-	order := fillPacket("", numbers)
-
-	req, err := json.Marshal(&order)
-	if err != nil {
-		return
-	}
-
 	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", "tracking", order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
+	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d&type=%d", "tracking", numbers, api_id, timestamp, 0)
+	sign_data := api_key + api_id + query_path_data + "" + strconv.FormatInt(timestamp, 10) + api_key
 
 	sign := md5.Sum([]byte(sign_data))
 	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
 
-	response := GetHttpResponse(url, API_GET, string(req))
+	response := GetHttpResponse1(url, API_GET, "")
 	if response == nil {
 		fmt.Println("failure")
 		return
@@ -438,7 +437,7 @@ func GetTrackingProcess(numbers string) {
 	//var rsp map[string]interface{}
 	//err := json.Unmarshal([]byte(*response), &rsp)
 	result := &packageResponse{}
-	err = json.Unmarshal([]byte(*response), result)
+	err := json.Unmarshal([]byte(*response), result)
 	if err != nil {
 		return
 	}
