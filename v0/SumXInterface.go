@@ -23,7 +23,8 @@ var API_POST = "POST"
 var API_PUT = "PUT"
 var API_GET = "GET"
 var API_DELETE = "DELETE"
-var create_request = "{\"customer_number\":\"CSUM15122100003\",\"channel_code\":\"eee\",\"type\":\"10\",\"packs\":1,\"weight\":1.000,\"length\":10.00,\"width\":10.00,\"height\":6.00,\"cbm\":0.00,\"receiver\":{ \"name\":\"Suzzanne Khudruj\",\"address\":\"59 Abbington dr\",\"country_code\":\"US\",\"state\":\"VIC\",\"city\":\"BUNDOORA\",\"suburb\":\"BUNDOORA\",\"postcode\":\"3083\",\"phone\":\"0399311598\"},\"sender\":{ \"name\":\"速玛（深圳）物流有限公司\",\"address\":\"广东省深圳市南山区侨城东路\",\"state\":\"广东省\",\"city\":\"深圳市\",\"suburb\":\"深圳市\",\"postcode\":\"519000\",\"phone\":\"18681472186\",\"email\":\"daniel@sumxpress.com\"},\"items\":[{\"type\":\"O\",\"name\":\"Mobile Phone\",\"cname\":\"Mobile Phone\",\"quantity\":1,\"unit_value\":554.0}]}"
+
+//var create_request = "{\"customer_number\":\"CSUM15122100003\",\"channel_code\":\"eee\",\"type\":\"10\",\"packs\":1,\"weight\":1.000,\"length\":10.00,\"width\":10.00,\"height\":6.00,\"cbm\":0.00,\"receiver\":{ \"name\":\"Suzzanne Khudruj\",\"address\":\"59 Abbington dr\",\"country_code\":\"US\",\"state\":\"VIC\",\"city\":\"BUNDOORA\",\"suburb\":\"BUNDOORA\",\"postcode\":\"3083\",\"phone\":\"0399311598\"},\"sender\":{ \"name\":\"速玛（深圳）物流有限公司\",\"address\":\"广东省深圳市南山区侨城东路\",\"state\":\"广东省\",\"city\":\"深圳市\",\"suburb\":\"深圳市\",\"postcode\":\"519000\",\"phone\":\"18681472186\",\"email\":\"daniel@sumxpress.com\"},\"items\":[{\"type\":\"O\",\"name\":\"Mobile Phone\",\"cname\":\"Mobile Phone\",\"quantity\":1,\"unit_value\":554.0}]}"
 
 type Contact struct {
 	Name        string `json:"name"`
