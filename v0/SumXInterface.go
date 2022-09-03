@@ -94,7 +94,175 @@ type packageResponse struct {
 	Orders      []Order `json:"orders"`
 }
 
-func fillPacket(customer_number string, number string) *Order {
+func fillPacketGlobavend(customer_number string, number string) *Order {
+
+	//	items := []*Items{
+	//		&Items{
+	items := make([]Items, 0)
+	item := Items{
+		Type:      "O",
+		Name:      "Mobile",
+		Cname:     "手机",
+		Brand:     "iPhone",
+		Model:     "11",
+		Quantity:  1,
+		UnitValue: 60,
+		HsCode:    "560811",
+		Material:  "",
+		Purpose:   "",
+		Sku:       "{2}ND1001-1(1), ML25400-1(1) {B}",
+		URL:       "",
+		//Ean:
+		//SerialNo:
+		//	},
+	}
+	items = append(items, item)
+
+	order := Order{
+		Items: items,
+
+		//Number: "OWLAU220814000101",
+		Number: number,
+		//Name            string  `json:"name"`
+		CustomerNumber: customer_number, //"CSUM15122100003",
+		//FirstMileNumber string  `json:"first_mile_number"`
+		CustomerCode: "test",
+		//CustomerName    string  `json:"customer_name"`
+		//Ttk             string  `json:"ttk"`
+		ChannelCode: "test-Grobavend", //"test-sumx", // "test-brazil",
+		//ChannelName     string  `json:"channel_name"`
+		Type: "10",
+		//State           int     `json:"state"`
+		//Packs           int     `json:"packs"`
+		Weight:    1,
+		Length:    15.00,
+		Width:     15.00,
+		Height:    15.00,
+		Cbm:       0.00,
+		Clear:     "ddu",
+		Insurance: 1,
+		//Price           float64 `json:"price"`
+		//LabelState      string  `json:"label_state"`
+		Currency: "USD",
+		Receiver: Contact{
+			Name:        "James Birnie",
+			Address:     "70 Iris Street",
+			Country:     "AU",
+			CountryCode: "AU",
+			State:       "NSW",
+			City:        "BEACON HILL",
+			Suburb:      "Beacon Hill",
+			Postcode:    "2100",
+			Phone:       "0407297946",
+			//Email: ,
+			TaxID: "",
+		},
+		Sender: Contact{
+			Name:        "SumXpress(SZ) Co.",
+			Address:     "Nanshan District Guangdong State",
+			Country:     "CN",
+			CountryCode: "CN",
+			State:       "GD",
+			City:        "深圳",
+			Suburb:      "HuaQiaoCheng Street",
+			Postcode:    "519000",
+			Phone:       "18681472186",
+			Email:       "daniel@sumxpress.com",
+			//TaxID       string `json:"tax_id"`
+		},
+		//ReturnOfAddress Contact `json:"return_of_address"`
+		//Notes           string  `json:"notes"`
+
+	}
+
+	return &order
+}
+
+func fillPacketSumx(customer_number string, number string) *Order {
+
+	//	items := []*Items{
+	//		&Items{
+	items := make([]Items, 0)
+	item := Items{
+		Type:      "O",
+		Name:      "Mobile",
+		Cname:     "手机",
+		Brand:     "iPhone",
+		Model:     "11",
+		Quantity:  1,
+		UnitValue: 60,
+		HsCode:    "560811",
+		Material:  "",
+		Purpose:   "",
+		Sku:       "{2}ND1001-1(1), ML25400-1(1) {B}",
+		URL:       "",
+		//Ean:
+		//SerialNo:
+		//	},
+	}
+	items = append(items, item)
+
+	order := Order{
+		Items: items,
+
+		//Number: "OWLAU220814000101",
+		Number: number,
+		//Name            string  `json:"name"`
+		CustomerNumber: customer_number, //"CSUM15122100003",
+		//FirstMileNumber string  `json:"first_mile_number"`
+		CustomerCode: "testa",
+		//CustomerName    string  `json:"customer_name"`
+		//Ttk             string  `json:"ttk"`
+		ChannelCode: "test-sumx", //"test-sumx", // "test-brazil",
+		//ChannelName     string  `json:"channel_name"`
+		Type: "10",
+		//State           int     `json:"state"`
+		//Packs           int     `json:"packs"`
+		Weight:    1,
+		Length:    15.00,
+		Width:     15.00,
+		Height:    15.00,
+		Cbm:       0.00,
+		Clear:     "ddu",
+		Insurance: 1,
+		//Price           float64 `json:"price"`
+		//LabelState      string  `json:"label_state"`
+		Currency: "USD",
+		Receiver: Contact{
+			Name:        "James Birnie",
+			Address:     "70 Iris Street",
+			Country:     "AU",
+			CountryCode: "AU",
+			State:       "NSW",
+			City:        "BEACON HILL",
+			Suburb:      "Beacon Hill",
+			Postcode:    "2100",
+			Phone:       "0407297946",
+			//Email: ,
+			TaxID: "",
+		},
+		Sender: Contact{
+			Name:        "SumXpress(SZ) Co.",
+			Address:     "Nanshan District Guangdong State",
+			Country:     "CN",
+			CountryCode: "CN",
+			State:       "GD",
+			City:        "深圳",
+			Suburb:      "HuaQiaoCheng Street",
+			Postcode:    "519000",
+			Phone:       "18681472186",
+			Email:       "daniel@sumxpress.com",
+			//TaxID       string `json:"tax_id"`
+		},
+		//ReturnOfAddress Contact `json:"return_of_address"`
+		//Notes           string  `json:"notes"`
+
+	}
+
+	return &order
+}
+
+func fillPacketFeichi(customer_number string, number string) *Order {
 
 	//	items := []*Items{
 	//		&Items{
@@ -129,7 +297,7 @@ func fillPacket(customer_number string, number string) *Order {
 		CustomerCode: "testa",
 		//CustomerName    string  `json:"customer_name"`
 		//Ttk             string  `json:"ttk"`
-		ChannelCode: "test-brazil",
+		ChannelCode: "test-brazil", //"test-sumx", // "test-brazil",
 		//ChannelName     string  `json:"channel_name"`
 		Type: "10",
 		//State           int     `json:"state"`
@@ -163,7 +331,7 @@ func fillPacket(customer_number string, number string) *Order {
 			Country:     "CN",
 			CountryCode: "CN",
 			State:       "GD",
-			City:        "SZ",
+			City:        "深圳",
 			Suburb:      "HuaQiaoCheng Street",
 			Postcode:    "519000",
 			Phone:       "18681472186",
@@ -176,6 +344,12 @@ func fillPacket(customer_number string, number string) *Order {
 	}
 
 	return &order
+}
+
+func fillPacket(customer_number string, number string) *Order {
+	return fillPacketSumx(customer_number, number)
+	//return fillPacketFeichi(customer_number, number)
+	//return fillPacketGlobavend(customer_number, number)
 }
 
 func GetHttpResponse(apiMethod string, httpMethod string, orderNo string, body string) (res *string) {
@@ -328,7 +502,7 @@ func UpdateOrderProcess(numbers string) {
 		return
 	}
 
-	response := GetHttpResponse("order", API_PUT, order.Number, string(req))
+	response := GetHttpResponse("order", API_PUT, number, string(req))
 
 	if response == nil {
 		fmt.Println("failure")
