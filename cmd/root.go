@@ -19,7 +19,7 @@ var numbers string   //customer number, or order number
 var rootCmd = &cobra.Command{
 	Use:   "v0",
 	Short: "v0 simulator.",
-	Long:  `v0 simulator.`,
+	Long:  `v0 simulator, for testing.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {

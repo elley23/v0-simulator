@@ -23,7 +23,8 @@ var API_POST = "POST"
 var API_PUT = "PUT"
 var API_GET = "GET"
 var API_DELETE = "DELETE"
-var create_request = "{\"customer_number\":\"CSUM15122100003\",\"channel_code\":\"eee\",\"type\":\"10\",\"packs\":1,\"weight\":1.000,\"length\":10.00,\"width\":10.00,\"height\":6.00,\"cbm\":0.00,\"receiver\":{ \"name\":\"Suzzanne Khudruj\",\"address\":\"59 Abbington dr\",\"country_code\":\"US\",\"state\":\"VIC\",\"city\":\"BUNDOORA\",\"suburb\":\"BUNDOORA\",\"postcode\":\"3083\",\"phone\":\"0399311598\"},\"sender\":{ \"name\":\"速玛（深圳）物流有限公司\",\"address\":\"广东省深圳市南山区侨城东路\",\"state\":\"广东省\",\"city\":\"深圳市\",\"suburb\":\"深圳市\",\"postcode\":\"519000\",\"phone\":\"18681472186\",\"email\":\"daniel@sumxpress.com\"},\"items\":[{\"type\":\"O\",\"name\":\"Mobile Phone\",\"cname\":\"Mobile Phone\",\"quantity\":1,\"unit_value\":554.0}]}"
+
+//var create_request = "{\"customer_number\":\"CSUM15122100003\",\"channel_code\":\"eee\",\"type\":\"10\",\"packs\":1,\"weight\":1.000,\"length\":10.00,\"width\":10.00,\"height\":6.00,\"cbm\":0.00,\"receiver\":{ \"name\":\"Suzzanne Khudruj\",\"address\":\"59 Abbington dr\",\"country_code\":\"US\",\"state\":\"VIC\",\"city\":\"BUNDOORA\",\"suburb\":\"BUNDOORA\",\"postcode\":\"3083\",\"phone\":\"0399311598\"},\"sender\":{ \"name\":\"速玛（深圳）物流有限公司\",\"address\":\"广东省深圳市南山区侨城东路\",\"state\":\"广东省\",\"city\":\"深圳市\",\"suburb\":\"深圳市\",\"postcode\":\"519000\",\"phone\":\"18681472186\",\"email\":\"daniel@sumxpress.com\"},\"items\":[{\"type\":\"O\",\"name\":\"Mobile Phone\",\"cname\":\"Mobile Phone\",\"quantity\":1,\"unit_value\":554.0}]}"
 
 type Contact struct {
 	Name        string `json:"name"`
@@ -93,7 +94,175 @@ type packageResponse struct {
 	Orders      []Order `json:"orders"`
 }
 
-func fillPacket(customer_number string, number string) *Order {
+func fillPacketGlobavend(customer_number string, number string) *Order {
+
+	//	items := []*Items{
+	//		&Items{
+	items := make([]Items, 0)
+	item := Items{
+		Type:      "O",
+		Name:      "Mobile",
+		Cname:     "手机",
+		Brand:     "iPhone",
+		Model:     "11",
+		Quantity:  1,
+		UnitValue: 60,
+		HsCode:    "560811",
+		Material:  "",
+		Purpose:   "",
+		Sku:       "{2}ND1001-1(1), ML25400-1(1) {B}",
+		URL:       "",
+		//Ean:
+		//SerialNo:
+		//	},
+	}
+	items = append(items, item)
+
+	order := Order{
+		Items: items,
+
+		//Number: "OWLAU220814000101",
+		Number: number,
+		//Name            string  `json:"name"`
+		CustomerNumber: customer_number, //"CSUM15122100003",
+		//FirstMileNumber string  `json:"first_mile_number"`
+		CustomerCode: "test",
+		//CustomerName    string  `json:"customer_name"`
+		//Ttk             string  `json:"ttk"`
+		ChannelCode: "test-Grobavend", //"test-sumx", // "test-brazil",
+		//ChannelName     string  `json:"channel_name"`
+		Type: "10",
+		//State           int     `json:"state"`
+		//Packs           int     `json:"packs"`
+		Weight:    1,
+		Length:    15.00,
+		Width:     15.00,
+		Height:    15.00,
+		Cbm:       0.00,
+		Clear:     "ddu",
+		Insurance: 1,
+		//Price           float64 `json:"price"`
+		//LabelState      string  `json:"label_state"`
+		Currency: "USD",
+		Receiver: Contact{
+			Name:        "James Birnie",
+			Address:     "70 Iris Street",
+			Country:     "AU",
+			CountryCode: "AU",
+			State:       "NSW",
+			City:        "BEACON HILL",
+			Suburb:      "Beacon Hill",
+			Postcode:    "2100",
+			Phone:       "0407297946",
+			//Email: ,
+			TaxID: "",
+		},
+		Sender: Contact{
+			Name:        "SumXpress(SZ) Co.",
+			Address:     "Nanshan District Guangdong State",
+			Country:     "CN",
+			CountryCode: "CN",
+			State:       "GD",
+			City:        "深圳",
+			Suburb:      "HuaQiaoCheng Street",
+			Postcode:    "519000",
+			Phone:       "18681472186",
+			Email:       "daniel@sumxpress.com",
+			//TaxID       string `json:"tax_id"`
+		},
+		//ReturnOfAddress Contact `json:"return_of_address"`
+		//Notes           string  `json:"notes"`
+
+	}
+
+	return &order
+}
+
+func fillPacketSumx(customer_number string, number string) *Order {
+
+	//	items := []*Items{
+	//		&Items{
+	items := make([]Items, 0)
+	item := Items{
+		Type:      "O",
+		Name:      "Mobile",
+		Cname:     "手机",
+		Brand:     "iPhone",
+		Model:     "11",
+		Quantity:  1,
+		UnitValue: 60,
+		HsCode:    "560811",
+		Material:  "",
+		Purpose:   "",
+		Sku:       "{2}ND1001-1(1), ML25400-1(1) {B}",
+		URL:       "",
+		//Ean:
+		//SerialNo:
+		//	},
+	}
+	items = append(items, item)
+
+	order := Order{
+		Items: items,
+
+		//Number: "OWLAU220814000101",
+		Number: number,
+		//Name            string  `json:"name"`
+		CustomerNumber: customer_number, //"CSUM15122100003",
+		//FirstMileNumber string  `json:"first_mile_number"`
+		CustomerCode: "testa",
+		//CustomerName    string  `json:"customer_name"`
+		//Ttk             string  `json:"ttk"`
+		ChannelCode: "test-sumx", //"test-sumx", // "test-brazil",
+		//ChannelName     string  `json:"channel_name"`
+		Type: "10",
+		//State           int     `json:"state"`
+		//Packs           int     `json:"packs"`
+		Weight:    1,
+		Length:    15.00,
+		Width:     15.00,
+		Height:    15.00,
+		Cbm:       0.00,
+		Clear:     "ddu",
+		Insurance: 1,
+		//Price           float64 `json:"price"`
+		//LabelState      string  `json:"label_state"`
+		Currency: "USD",
+		Receiver: Contact{
+			Name:        "James Birnie",
+			Address:     "70 Iris Street",
+			Country:     "AU",
+			CountryCode: "AU",
+			State:       "NSW",
+			City:        "BEACON HILL",
+			Suburb:      "Beacon Hill",
+			Postcode:    "2100",
+			Phone:       "0407297946",
+			//Email: ,
+			TaxID: "",
+		},
+		Sender: Contact{
+			Name:        "SumXpress(SZ) Co.",
+			Address:     "Nanshan District Guangdong State",
+			Country:     "CN",
+			CountryCode: "CN",
+			State:       "GD",
+			City:        "深圳",
+			Suburb:      "HuaQiaoCheng Street",
+			Postcode:    "519000",
+			Phone:       "18681472186",
+			Email:       "daniel@sumxpress.com",
+			//TaxID       string `json:"tax_id"`
+		},
+		//ReturnOfAddress Contact `json:"return_of_address"`
+		//Notes           string  `json:"notes"`
+
+	}
+
+	return &order
+}
+
+func fillPacketFeichi(customer_number string, number string) *Order {
 
 	//	items := []*Items{
 	//		&Items{
@@ -128,7 +297,7 @@ func fillPacket(customer_number string, number string) *Order {
 		CustomerCode: "testa",
 		//CustomerName    string  `json:"customer_name"`
 		//Ttk             string  `json:"ttk"`
-		ChannelCode: "test-brazil",
+		ChannelCode: "test-brazil", //"test-sumx", // "test-brazil",
 		//ChannelName     string  `json:"channel_name"`
 		Type: "10",
 		//State           int     `json:"state"`
@@ -162,7 +331,7 @@ func fillPacket(customer_number string, number string) *Order {
 			Country:     "CN",
 			CountryCode: "CN",
 			State:       "GD",
-			City:        "SZ",
+			City:        "深圳",
 			Suburb:      "HuaQiaoCheng Street",
 			Postcode:    "519000",
 			Phone:       "18681472186",
@@ -177,16 +346,32 @@ func fillPacket(customer_number string, number string) *Order {
 	return &order
 }
 
-func GetHttpResponse(url string, method string, body string) (res *string) {
+func fillPacket(customer_number string, number string) *Order {
+	return fillPacketSumx(customer_number, number)
+	//return fillPacketFeichi(customer_number, number)
+	//return fillPacketGlobavend(customer_number, number)
+}
+
+func GetHttpResponse(apiMethod string, httpMethod string, orderNo string, body string) (res *string) {
+	timestamp := time.Now().Unix()
+	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", apiMethod, orderNo, api_id, timestamp)
+	sign_data := api_key + api_id + query_path_data + body + strconv.FormatInt(timestamp, 10) + api_key
+
+	sign := md5.Sum([]byte(sign_data))
+	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
+
+	fmt.Printf("sign data: %s\n", sign_data)
+	fmt.Printf("sign: %s\n", strings.ToUpper(fmt.Sprintf("%x", sign)))
+
 	fmt.Println("Trying to get response from :" + url)
 	fmt.Println("Request body :" + body)
-	fmt.Println("API method :" + method)
+	fmt.Println("API method :" + httpMethod)
 
 	myClient := http.Client{Timeout: time.Second * 10000}
 
 	reqBody := strings.NewReader(body)
 
-	req, err := http.NewRequest(method, url, reqBody)
+	req, err := http.NewRequest(httpMethod, url, reqBody)
 	if err != nil {
 		fmt.Println(err)
 		return nil
@@ -201,6 +386,52 @@ func GetHttpResponse(url string, method string, body string) (res *string) {
 		return nil
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		fmt.Println("======================Response Message=======================")
+		fmt.Println("Http Response code :" + resp.Status)
+	}
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	response := string(respBody)
+	return &response
+}
+
+func GetHttpResponse1(url string, httpMethod string, body string) (res *string) {
+
+	fmt.Println("Trying to get response from :" + url)
+	fmt.Println("Request body :" + body)
+	fmt.Println("API method :" + httpMethod)
+
+	myClient := http.Client{Timeout: time.Second * 10000}
+
+	reqBody := strings.NewReader(body)
+
+	req, err := http.NewRequest(httpMethod, url, reqBody)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "JDJhJDEwJDRYSy4wdXN0Q3FsMi9VZ3Y5NGMvMnVYMEgzeExoc21CRXZuZ3ZnOUpEVThTWUtTZnlLUjJP")
+
+	resp, err := myClient.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		fmt.Println("======================Response Message=======================")
+		fmt.Println("Http Response code :" + resp.Status)
+	}
 
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -225,14 +456,7 @@ func CreateOrderProcess(numbers string) {
 		return
 	}
 
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_ORDER, order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_POST, string(req))
+	response := GetHttpResponse("order", API_POST, "", string(req))
 	if response == nil {
 		fmt.Println("failure")
 		return
@@ -278,14 +502,7 @@ func UpdateOrderProcess(numbers string) {
 		return
 	}
 
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_ORDER, order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_PUT, string(req))
+	response := GetHttpResponse("order", API_PUT, number, string(req))
 
 	if response == nil {
 		fmt.Println("failure")
@@ -306,21 +523,7 @@ func GetOrderProcess(numbers string) {
 	fmt.Println("Get order starting...")
 	fmt.Println("===============Request Message==================")
 
-	order := fillPacket("", numbers)
-
-	req, err := json.Marshal(&order)
-	if err != nil {
-		return
-	}
-
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_ORDER, order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_GET, string(req))
+	response := GetHttpResponse("order", API_GET, numbers, "")
 	if response == nil {
 		fmt.Println("failure")
 		return
@@ -333,7 +536,7 @@ func GetOrderProcess(numbers string) {
 	//var rsp map[string]interface{}
 	//err := json.Unmarshal([]byte(*response), &rsp)
 	result := &packageResponse{}
-	err = json.Unmarshal([]byte(*response), result)
+	err := json.Unmarshal([]byte(*response), result)
 	if err != nil {
 		return
 	}
@@ -343,15 +546,7 @@ func DeleteOrderProcess(numbers string) {
 	fmt.Println("Delete order starting...")
 	fmt.Println("=============== Request Message ==================")
 
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_ORDER, numbers, api_id, timestamp)
-
-	sign_data := api_key + api_id + query_path_data + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_DELETE, "")
+	response := GetHttpResponse("order", API_DELETE, numbers, "")
 
 	if response == nil {
 		fmt.Println("failure")
@@ -375,21 +570,7 @@ func GetLabelProcess(numbers string) {
 	fmt.Println("Get label starting...")
 	fmt.Println("===============Request Message==================")
 
-	order := fillPacket("", numbers)
-
-	req, err := json.Marshal(&order)
-	if err != nil {
-		return
-	}
-
-	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", API_NAME_LABEL, order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
-
-	sign := md5.Sum([]byte(sign_data))
-	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
-
-	response := GetHttpResponse(url, API_GET, string(req))
+	response := GetHttpResponse("label", API_GET, numbers, "")
 	if response == nil {
 		fmt.Println("failure")
 		return
@@ -402,7 +583,7 @@ func GetLabelProcess(numbers string) {
 	//var rsp map[string]interface{}
 	//err := json.Unmarshal([]byte(*response), &rsp)
 	result := &packageResponse{}
-	err = json.Unmarshal([]byte(*response), result)
+	err := json.Unmarshal([]byte(*response), result)
 	if err != nil {
 		return
 	}
@@ -411,21 +592,14 @@ func GetTrackingProcess(numbers string) {
 	fmt.Println("Get tracking starting...")
 	fmt.Println("===============Request Message==================")
 
-	order := fillPacket("", numbers)
-
-	req, err := json.Marshal(&order)
-	if err != nil {
-		return
-	}
-
 	timestamp := time.Now().Unix()
-	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d", "tracking", order.Number, api_id, timestamp)
-	sign_data := api_key + api_id + query_path_data + string(req) + strconv.FormatInt(timestamp, 10) + api_key
+	query_path_data := fmt.Sprintf("/api/v0/%s/%s?_id=%s&_t=%d&type=%d", "tracking", numbers, api_id, timestamp, 0)
+	sign_data := api_key + api_id + query_path_data + "" + strconv.FormatInt(timestamp, 10) + api_key
 
 	sign := md5.Sum([]byte(sign_data))
 	url := base_url + query_path_data + "&_s=" + strings.ToUpper(fmt.Sprintf("%x", sign))
 
-	response := GetHttpResponse(url, API_GET, string(req))
+	response := GetHttpResponse1(url, API_GET, "")
 	if response == nil {
 		fmt.Println("failure")
 		return
@@ -438,7 +612,7 @@ func GetTrackingProcess(numbers string) {
 	//var rsp map[string]interface{}
 	//err := json.Unmarshal([]byte(*response), &rsp)
 	result := &packageResponse{}
-	err = json.Unmarshal([]byte(*response), result)
+	err := json.Unmarshal([]byte(*response), result)
 	if err != nil {
 		return
 	}
