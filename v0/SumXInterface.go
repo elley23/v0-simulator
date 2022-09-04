@@ -19,6 +19,7 @@ var api_key = "JDJhJDEwJDRYSy4wdXN0Q3FsMi9VZ3Y5NGMvMnVYMEgzeExoc21CRXZuZ3ZnOUpEV
 var base_url = "http://127.0.0.1:8000"
 var API_NAME_ORDER = "order"
 var API_NAME_LABEL = "label"
+var API_NAME_TRACKING = "tracking"
 var API_POST = "POST"
 var API_PUT = "PUT"
 var API_GET = "GET"
