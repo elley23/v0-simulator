@@ -348,9 +348,9 @@ func fillPacketFeichi(customer_number string, number string) *Order {
 }
 
 func fillPacket(customer_number string, number string) *Order {
-	return fillPacketSumx(customer_number, number)
+	//return fillPacketSumx(customer_number, number)
 	//return fillPacketFeichi(customer_number, number)
-	//return fillPacketGlobavend(customer_number, number)
+	return fillPacketGlobavend(customer_number, number)
 }
 
 func GetHttpResponse(apiMethod string, httpMethod string, orderNo string, body string) (res *string) {
@@ -379,7 +379,7 @@ func GetHttpResponse(apiMethod string, httpMethod string, orderNo string, body s
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "JDJhJDEwJDRYSy4wdXN0Q3FsMi9VZ3Y5NGMvMnVYMEgzeExoc21CRXZuZ3ZnOUpEVThTWUtTZnlLUjJP")
+	//req.Header.Set("Authorization", "JDJhJDEwJDRYSy4wdXN0Q3FsMi9VZ3Y5NGMvMnVYMEgzeExoc21CRXZuZ3ZnOUpEVThTWUtTZnlLUjJP")
 
 	resp, err := myClient.Do(req)
 	if err != nil {
