@@ -17,7 +17,7 @@ var numbers string   //customer number, or order number
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "v0",
+	Use:   "simulator",
 	Short: "v0 simulator.",
 	Long:  `v0 simulator, for testing.`,
 	// Uncomment the following line if your bare application
